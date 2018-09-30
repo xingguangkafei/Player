@@ -26,7 +26,7 @@
 
 import UIKit
 
-let videoUrl = URL(string: "https://v.cdn.vine.co/r/videos/AA3C120C521177175800441692160_38f2cbd1ffb.1.5.13763579289575020226.mp4")!
+let videoUrl = URL(string: "http://mvvideo10.meitudata.com/5785a7fc4fc2a8429.mp4?k=f66c54e669f4409f6bb077d25eb28fa5&t=5bb48ad5")!
 
 class ViewController: UIViewController {
 

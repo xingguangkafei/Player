@@ -13,16 +13,54 @@
 //  copies of the Software, and to permit persons to whom the Software is
 //  furnished to do so, subject to the following conditions:
 //
-//  The above copyright notice and this permission notice shall be included in all
-//  copies or substantial portions of the Software.
+
+/*
+ Permission n. 允许，许可
+ hereby adv. 以此方式，据此；特此
+ granted vt. 授予；允许；承认
+ obtaining  n. 得到，获取
+ furnished ：adj. 家具，有家具的  v. 供应；装备（furnish的过去分词）
+ sublicense： vt. 给……发从属证书（或执照、许可证等）n. （证书持有者发给其他人的）从属证书（（或执照、许可证等）
+ subject n. 主题；科目；[语] 主语；国民 adj. 服从的；易患…的；受制于…的 vt. 使…隶属；使屈从于…
+ 
+ 许可特此授权：
+ 1，免费给所有人获取本软件和其关联的文档
+ 2，为了免费，无限制的使用，复制，修改，合并，发布, 颁发证书或者售卖软件，或者教人使用，等等
+ 要做到以上两点，要遵守以下条件
+ */
 //
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-//  SOFTWARE.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+/*
+ copyright n. 版权，著作权 adj. 版权的；受版权保护的 vt. 保护版权；为…取得版权
+ substantial adj. 大量的；实质的；内容充实的 n. 本质；重要材料
+ portions n. 部分（portion的复数形式）；加大份量 v. 将…分配（portion的第三人称单数形式）
+ 
+ 以上版权注意事项，和授权注意事项，应该在本软件的所有复制或者部分代码里都生效
+ */
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+/*
+ as is : 按照原来样子的
+ express: vt. 表达；快递 adj. 明确的；迅速的；专门的 n. 快车，快递，专使；捷运公司
+ implied vt. 暗示；意味（imply的过去式） adj. 含蓄的；暗指的
+ warranties n. 担保；特约条款（warranty的复数）
+ merchantability  n. 适销性，可销性
+ particular adj. 特别的；详细的；独有的；挑剔的 n. 详细说明；个别项目
+ Non-infringement ： declaration of noninfringement 非侵权申明
+ 
+ 
+ 这个软件 是按照原来的样子提供的，不用担心任何形式的，表达，暗示，包括但不限于特约条款的可售性
+ 
+ 适合于特别目的，和非侵权。
+ 在任何情况下，作者或版权所有人都不应对任何索赔、损害赔偿或其他责任承担责任，无论是在合同、侵权诉讼中，还是在其他情况下，由软件或软件的使用或其他交易引起的。
+ */
 
 import UIKit
 import Foundation
@@ -33,12 +71,16 @@ import CoreGraphics
 
 /// Video fill mode options for `Player.fillMode`.
 ///
-/// - resize: Stretch to fill.
-/// - resizeAspectFill: Preserve aspect ratio, filling bounds.
-/// - resizeAspectFit: Preserve aspect ratio, fill within bounds.
+/// - resize: Stretch to fill. 拉伸画面变形到填满屏幕
+/// - resizeAspectFill: Preserve aspect ratio, filling bounds.  保持长宽比，填充边界。
+/// - resizeAspectFit: Preserve aspect ratio, fill within bounds. 保持长宽比，在范围内填充。
 public typealias PlayerFillMode = AVLayerVideoGravity
 
-/// Asset playback states.
+/*
+ CustomStringConvertible 自定义字符串转换
+ 这个类里有一个协议，让
+ */
+/// Asset playback states. 资源播放状态。
 public enum PlaybackState: Int, CustomStringConvertible {
     case stopped = 0
     case playing
@@ -61,7 +103,7 @@ public enum PlaybackState: Int, CustomStringConvertible {
     }
 }
 
-/// Asset buffering states.
+/// Asset buffering states.资源缓存状态。
 public enum BufferingState: Int, CustomStringConvertible {
     case unknown = 0
     case ready
@@ -82,10 +124,10 @@ public enum BufferingState: Int, CustomStringConvertible {
 }
 // MARK: - error types
 
-/// Error domain for all Player errors.
+/// Error domain for all Player errors. 所有播放器错误的错误域。
 public let PlayerErrorDomain = "PlayerErrorDomain"
 
-/// Error types.
+/// Error types. 错误类型。
 public enum PlayerError: Error, CustomStringConvertible {
     case failed
 
@@ -107,6 +149,10 @@ public protocol PlayerDelegate: AnyObject {
     func playerPlaybackStateDidChange(_ player: Player)
     func playerBufferingStateDidChange(_ player: Player)
 
+    /*
+     这是以秒为单位的视频缓冲时间。
+     如果是用实现UIProgressView，用value / player.maximumDuration 来设置进度的最大持续时间。
+     */
     // This is the time in seconds that the video has been buffered.
     // If implementing a UIProgressView, user this value / player.maximumDuration to set progress.
     func playerBufferTimeDidChange(_ bufferTime: Double)
@@ -124,7 +170,27 @@ public protocol PlayerPlaybackDelegate: AnyObject {
 }
 
 // MARK: - Player
-
+/*
+ 1、private
+ private访问级别所修饰的属性或者方法只能在当前类里访问。
+ 
+ 2、fileprivate
+ fileprivate访问级别所修饰的属性或者方法在当前的Swift源文件里可以访问。
+ 
+ 3、internal（默认访问级别，internal修饰符可写可不写）
+ internal访问级别所修饰的属性或方法在源代码所在的整个模块都可以访问。
+ 如果是框架或者库代码，则在整个框架内部都可以访问，框架由外部代码所引用时，则不可以访问。
+ 如果是App代码，也是在整个App代码，也是在整个App内部可以访问。
+ 
+ 4、public
+ 可以被任何人访问。但其他module中不可以被override和继承，而在module内可以被override和继承。
+ 
+ 5，open
+ 可以被任何人使用，包括override和继承。
+ 
+ 访问顺序：
+ 现在的访问权限则依次为：open，public，internal，fileprivate，private。 
+ */
 /// ▶️ Player, simple way to play and stream media
 open class Player: UIViewController {
 
